@@ -5,7 +5,9 @@ import org.gs.model.Episode;
 import org.gs.model.TvSeries;
 import org.gs.proxy.EpisodeProxy;
 import org.gs.proxy.TvSeriesProxy;
+import org.gs.service.TvSeriesService;
 
+import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -17,18 +19,17 @@ import java.util.List;
 @Path("/tvseries")
 public class TvSeriesResource {
 
-  @RestClient TvSeriesProxy proxy;
   @RestClient
-  EpisodeProxy episodeProxy;
+  TvSeriesProxy proxy;
 
-  private List<TvSeries> tvSeriesList = new ArrayList<>();
+  @Inject
+  TvSeriesService service;
 
   @GET
   @Produces(MediaType.APPLICATION_JSON)
   public Response get(@QueryParam("title") String title) {
     TvSeries tvSeries = proxy.get(title);
-    List<Episode> episodes = episodeProxy.get(tvSeries.getId());
-    tvSeriesList.add(tvSeries);
-    return Response.ok(episodes).build();
+    service.addTvSeries(tvSeries);
+    return Response.ok(service.getTvSeriesList()).build();
   }
 }

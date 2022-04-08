@@ -3,6 +3,8 @@ package org.gs.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -21,6 +23,8 @@ public class TvSeries {
   private Set<String> genres;
 
   private URL officialSite;
+
+  private List<Episode> episodes = new ArrayList<>();
 
   public Long getId() {
     return id;
@@ -76,5 +80,13 @@ public class TvSeries {
 
   public void setOfficialSite(URL officialSite) {
     this.officialSite = officialSite;
+  }
+
+  public List<Episode> getEpisodes() {
+    return episodes;
+  }
+
+  public void setEpisodes(List<Episode> episodes) {
+    this.episodes = episodes;
   }
 }
